@@ -1,0 +1,11 @@
+﻿namespace HPCTech2023FavoriteMovie.Client.Pages;
+
+public partial class Counter
+{
+    private int currentCount = 0;
+
+    private void IncrementCount()
+    {
+        currentCount += 10;
+    }
+}
