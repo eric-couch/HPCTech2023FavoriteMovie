@@ -1,8 +1,18 @@
 ﻿@page "/"
 
 <PageTitle>Index</PageTitle>
+@if (User is not null)
+{
+    <h1>Hello @User.FirstName</h1>
 
-<h1>Hello, world!</h1>
+    <ul>
+    @foreach (var m in User.FavoriteMovies)
+    {
+        <li>@m.imdbId</li>
+    }
+    </ul>
+}
+
 
 Welcome to your new app.
 

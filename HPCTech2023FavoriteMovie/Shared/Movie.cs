@@ -9,5 +9,6 @@ namespace HPCTech2023FavoriteMovie.Shared;
 public class Movie
 {
     public int Id { get; set; }
+    // imdbId for MI dead reckoning part one - tt9603212
     public string imdbId { get; set; } = String.Empty;
 }
