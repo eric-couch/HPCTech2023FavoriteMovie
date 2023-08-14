@@ -15,6 +15,7 @@ public partial class Index
     public List<OMDBMovie> userFavoriteMovies = new List<OMDBMovie>();
     private readonly string OMDBAPIUrl = "https://www.omdbapi.com/?apikey=";
     private readonly string OMDBAPIKey = "86c39163";
+    public OMDBMovie? movieDetails { get; set; }
 
     protected override async Task OnInitializedAsync()
     {

@@ -10,13 +10,10 @@
         {
             @foreach(var movie in userFavoriteMovies)
             {
-                <li>@movie.Title (@movie.Year)</li>
+                <li><a href="#" @onclick="@(() => movieDetails = movie)">@movie.Title (@movie.Year)</a></li>
             }
         }
     </ul>
 }
 
-
-Welcome to your new app.
-
-<SurveyPrompt Title="How is Blazor working for you?" />
+<MovieDetails Movie="movieDetails" />

@@ -1,0 +1,7 @@
+﻿@if (Movie is not null)
+{
+    <h2>@Movie.Title</h2>
+    <h4>@Movie.Director</h4>
+    <h4>@Movie.Plot</h4>
+    <img src="@($"http://img.omdbapi.com/?apikey=86c39163&i={@Movie.imdbID}")" />
+}
