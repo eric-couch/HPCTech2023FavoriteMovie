@@ -12,6 +12,9 @@ public partial class Index
     [Inject]
     public AuthenticationStateProvider AuthenticationStateProvider { get; set; }
     public UserDto User = null;
+    public List<OMDBMovie> userFavoriteMovies = new List<OMDBMovie>();
+    private readonly string OMDBAPIUrl = "https://www.omdbapi.com/?apikey=";
+    private readonly string OMDBAPIKey = "86c39163";
 
     protected override async Task OnInitializedAsync()
     {
@@ -19,7 +22,19 @@ public partial class Index
         if (UserAuth is not null && UserAuth.IsAuthenticated)
         {
             User = await Http.GetFromJsonAsync<UserDto>("api/User");
-
+            // ?? is null coalescing operator
+            if (User?.FavoriteMovies?.Any() ?? false)
+            {
+                foreach (var movie in User.FavoriteMovies)
+                {
+                    OMDBMovie omdbMovie = await Http.GetFromJsonAsync<OMDBMovie>($"{OMDBAPIUrl}{OMDBAPIKey}&i={movie.imdbId}");
+                    if (omdbMovie is not null)
+                    {
+                        userFavoriteMovies.Add(omdbMovie);
+                    }
+                }
+            }
         }
+        
     }
 }

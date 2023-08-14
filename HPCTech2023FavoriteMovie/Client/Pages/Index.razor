@@ -6,10 +6,13 @@
     <h1>Hello @User.FirstName</h1>
 
     <ul>
-    @foreach (var m in User.FavoriteMovies)
-    {
-        <li>@m.imdbId</li>
-    }
+        @if (userFavoriteMovies is not null)
+        {
+            @foreach(var movie in userFavoriteMovies)
+            {
+                <li>@movie.Title (@movie.Year)</li>
+            }
+        }
     </ul>
 }
 
