@@ -1,0 +1,22 @@
+﻿@page "/search"
+
+<label>Search</label>
+<div class="container-fluid mb-5">
+    <div class="row">
+        <div class="col-3">
+            <input type="text" class="form-control" @bind="@searchTerm" />
+        </div>
+        <div class="col-1">
+            <button class="btn btn-primary" @onclick="SearchOMDB" >Search</button>
+        </div>
+    </div>
+</div>
+
+@if (movieResult is not null) {
+    <ul>
+        @foreach (var result in movieResult.Search)
+        {
+            <li>@result.Title (@result.Year)</li>
+        }
+    </ul>
+}
