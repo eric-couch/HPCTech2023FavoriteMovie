@@ -1,5 +1,7 @@
 ﻿@page "/search"
-@using Microsoft.AspNetCore.Components.QuickGrid
+@using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.Navigations
+@using HPCTech2023FavoriteMovie.Shared
 
 <label>Search</label>
 <div class="container-fluid mb-5">
@@ -12,26 +14,27 @@
         </div>
     </div>
 </div>
-@if (movieResult is not null)
+@if (OMDBMovies is not null)
 {
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
-            <div class="col-md-6">
-                <QuickGrid Items="movies">
-                    <PropertyColumn Property="@(m => m.Title)" />
-                    <PropertyColumn Property="@(m => m.Year)" />
-                </QuickGrid>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-1">
-                <button @onclick="PreviousPage">&lt;</button>
-            </div>
-            <div class="col-md-4">
-                Page: @pageNum
-            </div>
-            <div class="col-md-1">
-                <button @onclick="NextPage">&gt;</button>
+            <div class="col">
+                <SfPager @ref="Page" PageSize="10" TotalItemsCount="@totalItems" ItemClick="PageClick">
+                </SfPager>
+                <SfGrid     DataSource="OMDBMovies" 
+                            TValue="MovieSearchResultItem"
+                            @ref="movieGrid"
+                            Toolbar="@(new List<object>() { new ItemModel() { Text = "Add Movie", PrefixIcon="e-add", Id="GridMovieAdd"}})">
+                    <GridSelectionSettings Type="SelectionType.Multiple" />
+                    <GridEvents RowSelected="GetSelectedRows"
+                                OnToolbarClick="ToolbarClickHandler"
+                                TValue="MovieSearchResultItem"></GridEvents>
+                    <GridColumns>
+                        <GridColumn Field="Title" HeaderText="Movie Title" Width="200"></GridColumn>
+                        <GridColumn Field="Year" HeaderText="Year Released" Width="100"></GridColumn>
+                        <GridColumn Field="Type" HeaderText="Movie/Series/Episode" Width="100"></GridColumn>
+                    </GridColumns>
+                </SfGrid>
             </div>
         </div>
     </div>
