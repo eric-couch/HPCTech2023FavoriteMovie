@@ -9,6 +9,6 @@ namespace HPCTech2023FavoriteMovie.Shared;
 public class MovieSearchResult
 {
     public MovieSearchResultItem[] Search { get; set; }
-    public int totalResults { get; set; }
+    public string totalResults { get; set; }
     public string Response { get; set; }
 }
