@@ -1,6 +1,7 @@
 ﻿@page "/search"
 @using Syncfusion.Blazor.Grids
 @using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.Notifications
 @using HPCTech2023FavoriteMovie.Shared
 
 <label>Search</label>
@@ -40,11 +41,12 @@
     </div>
 }
 
-@*@if (movieResult is not null) {
-    <ul>
-        @foreach (var result in movieResult.Search)
-        {
-            <li>@result.Title (@result.Year)</li>
-        }
-    </ul>
-}*@
+<SfToast    @ref="ToastObj"
+            Content="@toastContent"
+            ShowCloseButton="true"
+            ShowProgressBar="true"
+            CssClass="@toastSuccess"
+            Timeout="3000">
+    <ToastPosition X="Center" Y="Top"></ToastPosition>
+</SfToast>
+            

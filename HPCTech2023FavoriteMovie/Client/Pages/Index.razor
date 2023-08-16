@@ -3,17 +3,19 @@
 <PageTitle>Index</PageTitle>
 @if (User is not null)
 {
-    <h1>Hello @User.FirstName</h1>
+    <h2>Favorite Movies</h2>
+    <div class="container">
 
-    <ul>
         @if (userFavoriteMovies is not null)
         {
+            <div class="row gy-3">
             @foreach(var movie in userFavoriteMovies)
             {
-                <li><a href="#" @onclick="@(() => movieDetails = movie)">@movie.Title (@movie.Year)</a></li>
+                    <MovieDetails Movie="movie" OnRemoveFavoriteMovie="RemoveFavoriteMovie" />
             }
+            </div>
         }
-    </ul>
+    </div>
 }
 
 <MovieDetails Movie="movieDetails" />

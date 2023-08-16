@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Components;
 using Syncfusion.Blazor.Grids;
 using Syncfusion.Blazor.Navigations;
+using Syncfusion.Blazor.Notifications;
 using System.Net.Http.Json;
 
 namespace HPCTech2023FavoriteMovie.Client.Pages;
@@ -20,6 +21,9 @@ public partial class Search
     private List<MovieSearchResultItem> OMDBMovies { get; set; } = new List<MovieSearchResultItem>();
     private SfGrid<MovieSearchResultItem> movieGrid;
     private SfPager? Page;
+    private SfToast? ToastObj;
+    private string? toastContent = string.Empty;
+    private string? toastSuccess = "e-toast-success";
     private List<MovieSearchResultItem> SelectedMovies { get; set; } = new();
 
     
@@ -55,6 +59,20 @@ public partial class Search
                 {
                     Movie newMovie = new Movie() { imdbId = movie.imdbID };
                     var res = await Http.PostAsJsonAsync("api/add-movie", newMovie);
+                    if (res.IsSuccessStatusCode)
+                    {
+                        toastContent = $"Added {movie.Title} to your favorites.";
+                        StateHasChanged();
+                        await Task.Delay(100);
+                        await ToastObj.ShowAsync();
+                    } else
+                    {
+                        toastContent = $"Failed to add movie {movie.Title} to your favorites.";
+                        toastSuccess = "e-toast-warning";
+                        StateHasChanged();
+                        await Task.Delay(100);
+                        await ToastObj.ShowAsync();
+                    }
                 }
             }
         }

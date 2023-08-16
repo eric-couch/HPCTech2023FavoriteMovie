@@ -38,4 +38,16 @@ public partial class Index
         }
         
     }
+
+    private async Task RemoveFavoriteMovie(OMDBMovie movie)
+    {
+        Movie newMovie = new Movie { imdbId = movie.imdbID };
+        var res = await Http.PostAsJsonAsync("api/remove-movie", newMovie);
+        userFavoriteMovies.Remove(movie);
+        StateHasChanged();
+        if (!res.IsSuccessStatusCode)
+        {
+            // show toast unsuccessful
+        }
+    }
 }
