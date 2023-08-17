@@ -1,4 +1,6 @@
-﻿using HPCTech2023FavoriteMovie.Shared;
+﻿using HPCTech2023FavoriteMovie.Client.HttpRepository;
+using HPCTech2023FavoriteMovie.Shared;
+using HPCTech2023FavoriteMovie.Shared.Wrappers;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using System.Net.Http.Json;
@@ -11,10 +13,10 @@ public partial class Index
     public HttpClient Http { get; set; } = new HttpClient();
     [Inject]
     public AuthenticationStateProvider AuthenticationStateProvider { get; set; }
+    [Inject]
+    public IUserMoviesHttpRepository UserMovieHttpRepository { get; set; }
     public UserDto User = null;
     public List<OMDBMovie> userFavoriteMovies = new List<OMDBMovie>();
-    private readonly string OMDBAPIUrl = "https://www.omdbapi.com/?apikey=";
-    private readonly string OMDBAPIKey = "86c39163";
     public OMDBMovie? movieDetails { get; set; }
 
     protected override async Task OnInitializedAsync()
@@ -22,18 +24,14 @@ public partial class Index
         var UserAuth = (await AuthenticationStateProvider.GetAuthenticationStateAsync()).User.Identity;
         if (UserAuth is not null && UserAuth.IsAuthenticated)
         {
-            User = await Http.GetFromJsonAsync<UserDto>("api/User");
-            // ?? is null coalescing operator
-            if (User?.FavoriteMovies?.Any() ?? false)
+            DataResponse<List<OMDBMovie>> dataResponse = await UserMovieHttpRepository.GetMovies();
+            if (dataResponse.Succeeded)
             {
-                foreach (var movie in User.FavoriteMovies)
-                {
-                    OMDBMovie omdbMovie = await Http.GetFromJsonAsync<OMDBMovie>($"{OMDBAPIUrl}{OMDBAPIKey}&i={movie.imdbId}");
-                    if (omdbMovie is not null)
-                    {
-                        userFavoriteMovies.Add(omdbMovie);
-                    }
-                }
+                userFavoriteMovies = dataResponse.Data;
+                StateHasChanged();
+            }else
+            {
+                // call a toast with error message
             }
         }
         

@@ -1,0 +1,10 @@
+﻿<h2>child component</h2>
+
+<p>
+    <button @onclick="OnClickCallback">Trigger parent component</button>
+</p>
+
+@code {
+    [Parameter]
+    public EventCallback<MouseEventArgs> OnClickCallback { get; set; }
+}

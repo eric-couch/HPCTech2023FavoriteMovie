@@ -1,0 +1,16 @@
+﻿@page "/parent"
+
+<h3>blazor child component event handler</h3>
+
+<Child OnClickCallback="@UpdateMessage" />
+
+<p>@message</p>
+
+@code {
+    private string message = String.Empty;
+
+    private void UpdateMessage(MouseEventArgs args)
+    {
+        message = $"This is Blazor!!! ({args.ScreenX}:{args.ScreenY})";
+    }
+}

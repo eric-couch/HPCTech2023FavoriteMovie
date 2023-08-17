@@ -1,7 +1,7 @@
 ﻿@page "/"
 
 <PageTitle>Index</PageTitle>
-@if (User is not null)
+@if (userFavoriteMovies?.Any() ?? false)
 {
     <h2>Favorite Movies</h2>
     <div class="container">
@@ -18,4 +18,3 @@
     </div>
 }
 
-<MovieDetails Movie="movieDetails" />
