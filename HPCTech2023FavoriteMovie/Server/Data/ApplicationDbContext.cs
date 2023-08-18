@@ -15,6 +15,9 @@ namespace HPCTech2023FavoriteMovie.Server.Data
         {
         }
 
+
         public DbSet<Movie> Movies => Set<Movie>();
+
+
     }
 }

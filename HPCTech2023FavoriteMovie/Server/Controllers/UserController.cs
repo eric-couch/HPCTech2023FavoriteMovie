@@ -5,6 +5,7 @@ using HPCTech2023FavoriteMovie.Shared;
 using Microsoft.EntityFrameworkCore;
 using HPCTech2023FavoriteMovie.Server.Data;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HPCTech2023FavoriteMovie.Server.Controllers;
 
@@ -21,9 +22,11 @@ public class UserController : Controller
 
     [HttpGet]
     [Route("api/User")]
+    [Authorize(Roles ="admin")]
     public async Task<ActionResult<UserDto>> GetUserMovies()
     {
-        var user = await _context.Users
+        var user = await _userManager.FindByNameAsync(User.Identity.Name);
+        var movies = await _context.Users
             .Include(u => u.FavoriteMovies)
             .Select(u => new UserDto
             {
@@ -32,7 +35,7 @@ public class UserController : Controller
                 FirstName = u.FirstName,
                 LastName = u.LastName,
                 FavoriteMovies = u.FavoriteMovies
-            }).FirstOrDefaultAsync(u => u.Id == User.FindFirstValue(ClaimTypes.NameIdentifier));
+            }).FirstOrDefaultAsync(u => u.Id == user.Id);
 
         if (user is null)
         {
