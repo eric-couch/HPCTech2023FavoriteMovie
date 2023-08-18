@@ -15,7 +15,7 @@ public partial class Index
     public AuthenticationStateProvider AuthenticationStateProvider { get; set; }
     [Inject]
     public IUserMoviesHttpRepository UserMovieHttpRepository { get; set; }
-    public UserDto User = null;
+    //public UserDto User = null;
     public List<OMDBMovie> userFavoriteMovies = new List<OMDBMovie>();
     public OMDBMovie? movieDetails { get; set; }
 

@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HPCTech2023FavoriteMovie.Cl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HPCTech2023FavoriteMovie.Shared", "HPCTech2023FavoriteMovie\Shared\HPCTech2023FavoriteMovie.Shared.csproj", "{A72D34F8-E9A6-4230-94AE-5B56DA34711B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HPCTech2023FavoriteMovies.Client.Test", "HPCTech2023FavoriteMovies.Client.Test\HPCTech2023FavoriteMovies.Client.Test.csproj", "{AAE4C3EE-DB09-4341-9876-D80F71BF67CF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{A72D34F8-E9A6-4230-94AE-5B56DA34711B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A72D34F8-E9A6-4230-94AE-5B56DA34711B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A72D34F8-E9A6-4230-94AE-5B56DA34711B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AAE4C3EE-DB09-4341-9876-D80F71BF67CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AAE4C3EE-DB09-4341-9876-D80F71BF67CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AAE4C3EE-DB09-4341-9876-D80F71BF67CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AAE4C3EE-DB09-4341-9876-D80F71BF67CF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
