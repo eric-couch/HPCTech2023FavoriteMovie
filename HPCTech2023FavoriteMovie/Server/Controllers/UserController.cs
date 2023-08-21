@@ -22,7 +22,6 @@ public class UserController : Controller
 
     [HttpGet]
     [Route("api/User")]
-    [Authorize(Roles ="admin")]
     public async Task<ActionResult<UserDto>> GetUserMovies()
     {
         var user = await _userManager.FindByNameAsync(User.Identity.Name);
@@ -42,6 +41,44 @@ public class UserController : Controller
             return NotFound();
         }
         return Ok(user);
+    }
+
+    [HttpGet]
+    [Authorize(Roles="admin")]
+    [Route("api/get-users")]
+    public async Task<List<UserDto>> GetUsers()
+    {
+
+        var users = await (from u in _context.Users
+                           select new UserDto
+                           {
+                               Id = u.Id,
+                               UserName = u.UserName,
+                               FirstName =u.FirstName,
+                               LastName = u.LastName
+                           }).ToListAsync();
+
+        if (users is not null )
+        {
+            return users;
+        } else
+        {
+            return new List<UserDto>();
+        }
+    }
+
+    [HttpGet]
+    [Authorize(Roles = "admin")]
+    [Route("api/get-roles/{id}")]
+    public async Task<List<string>> GetRoles(string id)
+    {
+        var user = await _userManager.FindByIdAsync(id);
+        if (user is not null)
+        {
+            IList<string> roles = await _userManager.GetRolesAsync(user);
+            return roles.ToList();
+        } else { return new List<string>(); }
+
     }
 
     [HttpPost]

@@ -1,0 +1,38 @@
+﻿@page "/admin"
+
+@using Syncfusion.Blazor.Grids
+@using HPCTech2023FavoriteMovie.Shared
+
+<h3>Users</h3>
+
+<p>
+    <NavLink class="btn btn-primary" href="create-user">Add User</NavLink>
+    <NavLink class="btn btn-primary" href="create-role">Create Role</NavLink>
+    <NavLink class="btn btn-primary" href="manage-role">Manage Roles</NavLink>
+</p>
+
+@if (users is not null)
+{
+    <SfGrid     DataSource="users" 
+                TValue="UserDto"
+                @ref="userGrid">
+        <GridSelectionSettings Type="SelectionType.Single" />
+        <GridEvents RowSelected="GetUserRoles"
+                    TValue="UserDto"/>
+        <GridColumns>
+            <GridColumn Field="UserName" HeaderText="User Name" Width="200"></GridColumn>
+            <GridColumn Field="FirstName" HeaderText="First Name" Width="200"></GridColumn>
+            <GridColumn Field="LastName" HeaderText="Last Name" Width="200"></GridColumn>
+        </GridColumns>
+    </SfGrid>
+}
+@if (roles is not null) {
+    <ul>
+        @foreach (var role in roles)
+        {
+            <li>
+                @role
+            </li>
+        }
+    </ul>
+}
