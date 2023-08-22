@@ -1,22 +1,28 @@
 ﻿@page "/admin"
 
 @using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.Notifications
+@using Syncfusion.Blazor.Popups
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.Buttons
 @using HPCTech2023FavoriteMovie.Shared
 
 <h3>Users</h3>
 
-<p>
+@*<p>
     <NavLink class="btn btn-primary" href="create-user">Add User</NavLink>
     <NavLink class="btn btn-primary" href="create-role">Create Role</NavLink>
     <NavLink class="btn btn-primary" href="manage-role">Manage Roles</NavLink>
-</p>
+</p>*@
 
 @if (users is not null)
 {
     <SfGrid     DataSource="users" 
                 TValue="UserDto"
                 @ref="userGrid">
-        <GridSelectionSettings Type="SelectionType.Single" />
+        <GridSelectionSettings Type="Syncfusion.Blazor.Grids.SelectionType.Single" />
         <GridEvents RowSelected="GetUserRoles"
                     TValue="UserDto"/>
         <GridColumns>
@@ -27,12 +33,54 @@
     </SfGrid>
 }
 @if (roles is not null) {
-    <ul>
-        @foreach (var role in roles)
-        {
-            <li>
-                @role
-            </li>
-        }
-    </ul>
+    <SfGrid DataSource="roles"
+            TValue="RoleDto"
+            @ref="userRoleGrid"
+            Toolbar="@(new List<object>() { new ItemModel() { Text = "Add User To Role", PrefixIcon="e-add", Id="GridRoleAdd"}})">
+        <GridSelectionSettings Type="Syncfusion.Blazor.Grids.SelectionType.Single" />
+        <GridEvents RowSelected="GetRole"
+                    OnToolbarClick="ToolbarClickEventHandler"
+                    TValue="RoleDto" />
+        <GridColumns>
+            <GridColumn Field="Name" HeaderText="Role Name" Width="200"></GridColumn>
+        </GridColumns>
+    </SfGrid>
 }
+
+<button @onclick="AddNewRole" class="btn btn-primary">Add New Role</button>
+
+<SfDialog   Width="300" 
+            Height="calc(100vh - 60rem)" 
+            IsModal="true"
+            @bind-Visible="@IsAddUserToRoleVisible">
+            <DialogTemplates>
+                <Header>Add User to Role</Header>
+
+            </DialogTemplates>
+</SfDialog>
+
+
+<SfDialog   Width="300" 
+            Height="calc(100vh - 40rem)" 
+            IsModal="true"
+            @bind-Visible="@IsAddRoleVisible">
+            <DialogTemplates>
+                <Header>Add Role</Header>
+                <Content>
+                    <EditForm Model="@newRole" OnValidSubmit="AddRole">
+                        <DataAnnotationsValidator />
+                        <div class="form-group row">
+                            <div class="col-md-12">
+                                <label for="RoleName">Role Name:</label>
+                                <SfTextBox @bind-Value="newRole.Name"></SfTextBox>
+                                <ValidationMessage For="@(() => newRole.Name)" />
+                            </div>
+                            <div class="form-group row">
+                                <SfButton type="submit" title="Add" CssClass="btn btn-primary">Add</SfButton>
+                            </div>
+                        </div>
+                        
+                    </EditForm>
+                </Content>
+            </DialogTemplates>
+</SfDialog>

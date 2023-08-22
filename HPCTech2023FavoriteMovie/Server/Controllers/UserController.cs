@@ -12,11 +12,13 @@ namespace HPCTech2023FavoriteMovie.Server.Controllers;
 public class UserController : Controller
 {
     private readonly UserManager<ApplicationUser> _userManager;
+    private readonly RoleManager<IdentityRole> _roleManager;
     private readonly ApplicationDbContext _context;
 
-    public UserController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+    public UserController(ApplicationDbContext context, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
     {
         _userManager = userManager;
+        _roleManager = roleManager;
         _context = context;
     }
 
@@ -70,14 +72,19 @@ public class UserController : Controller
     [HttpGet]
     [Authorize(Roles = "admin")]
     [Route("api/get-roles/{id}")]
-    public async Task<List<string>> GetRoles(string id)
+    public async Task<List<RoleDto>> GetRoles(string id)
     {
         var user = await _userManager.FindByIdAsync(id);
         if (user is not null)
         {
             IList<string> roles = await _userManager.GetRolesAsync(user);
-            return roles.ToList();
-        } else { return new List<string>(); }
+            var retRoles =  (from r in roles
+                            select new RoleDto
+                            {
+                                Name = r
+                            }).ToList();
+            return retRoles;
+        } else { return new List<RoleDto>(); }
 
     }
 
@@ -108,6 +115,18 @@ public class UserController : Controller
             .FavoriteMovies.FirstOrDefault(m => m.imdbId == movie.imdbId);
         _context.Movies.Remove(movieToRemove);
         _context.SaveChanges();
+        return Ok();
+    }
+
+    [HttpPost]
+    [Route("api/add-role")]
+    public async Task<ActionResult> AddRole([FromBody] RoleDto role)
+    {
+        IdentityRole identityRole = new IdentityRole()
+        {
+            Name = role.Name
+        };
+        await _roleManager.CreateAsync(identityRole);
         return Ok();
     }
 

@@ -1,4 +1,5 @@
 ﻿@page "/"
+@using Syncfusion.Blazor.Notifications
 
 <PageTitle>Index</PageTitle>
 @if (userFavoriteMovies?.Any() ?? false)
@@ -18,3 +19,12 @@
     </div>
 }
 
+<SfToast    @ref="ToastObj"
+            Content="@toastContent"
+            ShowCloseButton="true"
+            ShowProgressBar="true"
+            CssClass="@toastSuccess"
+            Timeout="3000">
+    <ToastPosition X="Center" Y="Top"></ToastPosition>
+</SfToast>
+            

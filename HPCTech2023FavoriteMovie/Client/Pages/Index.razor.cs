@@ -3,6 +3,8 @@ using HPCTech2023FavoriteMovie.Shared;
 using HPCTech2023FavoriteMovie.Shared.Wrappers;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
+using Syncfusion.Blazor.Notifications;
+using Syncfusion.Blazor.PivotView;
 using System.Net.Http.Json;
 
 namespace HPCTech2023FavoriteMovie.Client.Pages;
@@ -18,6 +20,9 @@ public partial class Index
     //public UserDto User = null;
     public List<OMDBMovie> userFavoriteMovies = new List<OMDBMovie>();
     public OMDBMovie? movieDetails { get; set; }
+    private SfToast? ToastObj;
+    private string? toastContent = string.Empty;
+    private string? toastSuccess = "e-toast-success";
 
     protected override async Task OnInitializedAsync()
     {
@@ -31,7 +36,11 @@ public partial class Index
                 StateHasChanged();
             }else
             {
-                // call a toast with error message
+                toastContent = $"Error: attempt to get user and favorite movies failed.";
+                toastSuccess = "e-toast-warning";
+                StateHasChanged();
+                await Task.Delay(100);
+                await ToastObj.ShowAsync();
             }
         }
         
@@ -39,13 +48,28 @@ public partial class Index
 
     private async Task RemoveFavoriteMovie(OMDBMovie movie)
     {
-        Movie newMovie = new Movie { imdbId = movie.imdbID };
-        var res = await Http.PostAsJsonAsync("api/remove-movie", newMovie);
-        userFavoriteMovies.Remove(movie);
-        StateHasChanged();
-        if (!res.IsSuccessStatusCode)
+        try
         {
-            // show toast unsuccessful
+            Movie newMovie = new Movie { imdbId = movie.imdbID };
+            var res = await Http.PostAsJsonAsync("api/remove-movie", newMovie);
+            userFavoriteMovies.Remove(movie);
+            StateHasChanged();
+            if (!res.IsSuccessStatusCode)
+            {
+                toastContent = $"Failed to remove movie {movie.Title}";
+                toastSuccess = "e-toast-warning";
+                StateHasChanged();
+                await Task.Delay(100);
+                await ToastObj.ShowAsync();
+            }
+        } catch (Exception ex)
+        {
+            toastContent = $"Failed to remove movie {movie.Title}";
+            toastSuccess = "e-toast-warning";
+            StateHasChanged();
+            await Task.Delay(100);
+            await ToastObj.ShowAsync();
         }
+        
     }
 }

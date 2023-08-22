@@ -7,7 +7,8 @@ public interface IUserMoviesHttpRepository
 {
     Task<DataResponse<List<OMDBMovie>>> GetMovies();
     Task<DataResponse<List<UserDto>>> GetUsers();
-    Task<DataResponse<List<string>>> GetRoles(string id);
+    Task<DataResponse<List<RoleDto>>> GetRoles(string id);
+    Task<Response> AddRole(string role);
     //Task<Response> AddMovie(string imdbID);
     //Task<Response> RemoveMovie(string imdbID);
 }
