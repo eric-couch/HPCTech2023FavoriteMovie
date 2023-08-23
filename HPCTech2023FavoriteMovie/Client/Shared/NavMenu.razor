@@ -1,4 +1,23 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
+﻿<nav class="nav nav-masthead justify-content-center float-md-end">
+    <NavLink class="nav-link fw-bold py-1 px-0" href="">
+        Home
+    </NavLink>
+
+    <AuthorizeView>
+        <Authorized>
+            <NavLink class="nav-link  fw-bold py-1 px-0" href="search">Search</NavLink>
+        </Authorized>
+    </AuthorizeView>
+    <AuthorizeView Roles="admin">
+        <NavLink class="nav-link  fw-bold py-1 px-0" href="admin">User Admin</NavLink>
+    </AuthorizeView>
+
+
+</nav>
+
+
+
+@*<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="">HPCTech2023FavoriteMovie</a>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
@@ -6,6 +25,9 @@
         </button>
     </div>
 </div>
+
+
+
 
 <div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
     <nav class="flex-column">
@@ -27,7 +49,7 @@
             </div>
         </AuthorizeView>
     </nav>
-</div>
+</div>*@
 
 @code {
     private bool collapseNavMenu = true;

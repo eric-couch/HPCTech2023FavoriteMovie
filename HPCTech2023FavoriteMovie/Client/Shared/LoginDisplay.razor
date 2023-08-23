@@ -4,12 +4,12 @@
 
 <AuthorizeView>
     <Authorized>
-        <a href="authentication/profile">Hello, @context.User.Identity?.Name!</a>
+        <a href="authentication/profile" class="nav-link fw-bold py-1 px-0">Hello, @context.User.Identity?.Name!</a>
         <button class="nav-link btn btn-link" @onclick="BeginLogOut">Log out</button>
     </Authorized>
     <NotAuthorized>
-        <a href="authentication/register">Register</a>
-        <a href="authentication/login">Log in</a>
+        <a href="authentication/register" class="nav-link fw-bold py-1 px-0">Register</a>
+        <a href="authentication/login" class="nav-link fw-bold py-1 px-0">Log in</a>
     </NotAuthorized>
 </AuthorizeView>
 

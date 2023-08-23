@@ -6,16 +6,23 @@
 {
     <h2>Favorite Movies</h2>
     <div class="container">
-
-        @if (userFavoriteMovies is not null)
-        {
-            <div class="row gy-3">
-            @foreach(var movie in userFavoriteMovies)
-            {
-                    <MovieDetails Movie="movie" OnRemoveFavoriteMovie="RemoveFavoriteMovie" />
-            }
+    @for (int index = 0; index < userFavoriteMovies.Count; index+=numCols)
+    {
+        <div class="row gy-3">
+            <div class="col-md-@(12/numCols) my-4">
+                <MovieDetails Movie="userFavoriteMovies[index]" OnRemoveFavoriteMovie="RemoveFavoriteMovie" />
             </div>
+        @for (int col=1; col<numCols-1; col++)
+        {
+            if (index + col < userFavoriteMovies.Count)
+            {
+                <div class="col-md-@(12/numCols) my-4">
+                    <MovieDetails Movie="userFavoriteMovies[index + col]" OnRemoveFavoriteMovie="RemoveFavoriteMovie" />
+                </div>
+            }
         }
+        </div>
+    }
     </div>
 }
 

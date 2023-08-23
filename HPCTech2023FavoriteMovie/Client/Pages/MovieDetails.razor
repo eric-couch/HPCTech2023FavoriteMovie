@@ -1,9 +1,18 @@
 ﻿@if (Movie is not null)
 {
-    <h2>@Movie.Title</h2>
-    <h4>@Movie.Director</h4>
-    <h4>@Movie.Plot</h4>
-    <h4 style="font-weight: bold">@(Movie.Actors.Replace(", ", " | "))</h4>
-    <a href="@($"https://www.imdb.com/title/{Movie.imdbID}/")"><img src="@($"https://img.omdbapi.com/?apikey=86c39163&i={@Movie.imdbID}")" /></a>
-    <button class="btn btn-primary" @onclick="@(() => RemoveFavoriteMovie(@Movie))">Remove</button>
+    <div class="card h-100 border rounded bg-white">
+        <a href="@($"https://www.imdb.com/title/{Movie.imdbID}/")"><img class="card-img-top" src="@($"https://img.omdbapi.com/?apikey=86c39163&i={@Movie.imdbID}")"  /></a>
+        <div class="card-body">
+            <h5>@Movie.Title</h5>
+            @*<h6 style="font-weight: bold">@(Movie.Actors.Replace(", ", " | "))</h6>*@
+            <h6>Actors</h6>
+            <ul class="list-group list-group-flush">
+            @foreach (var actor in Movie.Actors.Split(", "))
+            {
+                <li class="list-group-item">@actor</li>
+            }
+            </ul>
+            <button class="btn btn-primary" @onclick="@(() => RemoveFavoriteMovie(@Movie))">Remove</button>
+        </div>
+    </div>
 }

@@ -23,7 +23,7 @@ public partial class Index
     private SfToast? ToastObj;
     private string? toastContent = string.Empty;
     private string? toastSuccess = "e-toast-success";
-
+    public int numCols = 6;
     protected override async Task OnInitializedAsync()
     {
         var UserAuth = (await AuthenticationStateProvider.GetAuthenticationStateAsync()).User.Identity;
