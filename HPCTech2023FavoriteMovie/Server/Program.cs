@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using HPCTech2023FavoriteMovie.Server.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,6 +33,8 @@ builder.Services.AddAuthentication(options =>
     options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
 })
     .AddIdentityServerJwt();
+
+builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();

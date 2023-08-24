@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using HPCTech2023FavoriteMovie.Server.Data;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
+using HPCTech2023FavoriteMovie.Server.Services;
 
 namespace HPCTech2023FavoriteMovie.Server.Controllers;
 
@@ -15,36 +16,29 @@ public class UserController : Controller
     private readonly RoleManager<IdentityRole> _roleManager;
     private readonly ApplicationDbContext _context;
     private readonly ILogger<UserController> _logger;
+    private readonly IUserService _userService;
 
-    public UserController(ApplicationDbContext context, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, ILogger<UserController> logger)
+    public UserController(  ApplicationDbContext context, 
+                            UserManager<ApplicationUser> userManager, 
+                            RoleManager<IdentityRole> roleManager, 
+                            ILogger<UserController> logger, 
+                            IUserService userService)
     {
         _userManager = userManager;
         _roleManager = roleManager;
         _context = context;
         _logger = logger;
+        _userService = userService;
     }
 
     [HttpGet]
     [Route("api/User")]
     public async Task<ActionResult<UserDto>> GetUserMovies()
     {
-        var user = await _userManager.FindByNameAsync(User.Identity.Name);
-        var movies = await _context.Users
-            .Include(u => u.FavoriteMovies)
-            .Select(u => new UserDto
-            {
-                Id = u.Id,
-                UserName = u.UserName,
-                FirstName = u.FirstName,
-                LastName = u.LastName,
-                FavoriteMovies = u.FavoriteMovies
-            }).FirstOrDefaultAsync(u => u.Id == user.Id);
-
-        _logger.LogInformation("User {UserName} retreiving {Count} favorite movies.  Logged at {Placeholder:MMMM dd, yyyy}", user.UserName, movies.FavoriteMovies.Count, DateTimeOffset.UtcNow);
-
+        var user = await _userService.GetMovies(User);
         if (user is null)
         {
-            _logger.LogWarning("User object not found for {UserName}", user.UserName);
+            _logger.LogWarning("User object not found for {UserName}", User?.Identity?.Name ?? "Not Found");
             return NotFound();
         }
         return Ok(user);
