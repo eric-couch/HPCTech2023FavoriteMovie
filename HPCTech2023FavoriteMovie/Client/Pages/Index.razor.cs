@@ -17,6 +17,8 @@ public partial class Index
     public AuthenticationStateProvider AuthenticationStateProvider { get; set; }
     [Inject]
     public IUserMoviesHttpRepository UserMovieHttpRepository { get; set; }
+    [Inject]
+    public ILogger<Index> Logger { get; set; }
     //public UserDto User = null;
     public List<OMDBMovie> userFavoriteMovies = new List<OMDBMovie>();
     public OMDBMovie? movieDetails { get; set; }
@@ -33,6 +35,7 @@ public partial class Index
             if (dataResponse.Succeeded)
             {
                 userFavoriteMovies = dataResponse.Data;
+                Logger.LogInformation("User {UserName} retreiving {Count} favortie movies.  Logged at {Placeholder:yyyy-mm-dd HH:MM:ss mmmm}", UserAuth.Name, userFavoriteMovies.Count, DateTimeOffset.UtcNow);
                 StateHasChanged();
             }else
             {

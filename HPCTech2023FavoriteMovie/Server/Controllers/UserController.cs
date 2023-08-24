@@ -14,12 +14,14 @@ public class UserController : Controller
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly RoleManager<IdentityRole> _roleManager;
     private readonly ApplicationDbContext _context;
+    private readonly ILogger<UserController> _logger;
 
-    public UserController(ApplicationDbContext context, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
+    public UserController(ApplicationDbContext context, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, ILogger<UserController> logger)
     {
         _userManager = userManager;
         _roleManager = roleManager;
         _context = context;
+        _logger = logger;
     }
 
     [HttpGet]
@@ -38,8 +40,11 @@ public class UserController : Controller
                 FavoriteMovies = u.FavoriteMovies
             }).FirstOrDefaultAsync(u => u.Id == user.Id);
 
+        _logger.LogInformation("User {UserName} retreiving {Count} favorite movies.  Logged at {Placeholder:MMMM dd, yyyy}", user.UserName, movies.FavoriteMovies.Count, DateTimeOffset.UtcNow);
+
         if (user is null)
         {
+            _logger.LogWarning("User object not found for {UserName}", user.UserName);
             return NotFound();
         }
         return Ok(user);
