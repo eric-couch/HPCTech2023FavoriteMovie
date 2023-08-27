@@ -5,5 +5,5 @@ namespace HPCTech2023FavoriteMovie.Server.Services;
 
 public interface IUserService
 {
-    Task<UserDto> GetMovies(ClaimsPrincipal User);
+    Task<UserDto> GetMovies(String userName);
 }

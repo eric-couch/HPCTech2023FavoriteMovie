@@ -5,7 +5,7 @@ namespace HPCTech2023FavoriteMovie.Client.HttpRepository;
 
 public interface IUserMoviesHttpRepository
 {
-    Task<DataResponse<List<OMDBMovie>>> GetMovies();
+    Task<DataResponse<List<OMDBMovie>>> GetMovies(string userName);
     Task<DataResponse<List<UserDto>>> GetUsers();
     Task<DataResponse<List<RoleDto>>> GetRoles(string id);
     Task<Response> AddRole(string role);

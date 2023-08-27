@@ -31,7 +31,7 @@ public partial class Index
         var UserAuth = (await AuthenticationStateProvider.GetAuthenticationStateAsync()).User.Identity;
         if (UserAuth is not null && UserAuth.IsAuthenticated)
         {
-            DataResponse<List<OMDBMovie>> dataResponse = await UserMovieHttpRepository.GetMovies();
+            DataResponse<List<OMDBMovie>> dataResponse = await UserMovieHttpRepository.GetMovies(UserAuth.Name!);
             if (dataResponse.Succeeded)
             {
                 userFavoriteMovies = dataResponse.Data;

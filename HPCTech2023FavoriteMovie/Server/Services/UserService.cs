@@ -23,9 +23,9 @@ public class UserService : IUserService
         _logger = logger;
     }
 
-    public async Task<UserDto> GetMovies(ClaimsPrincipal User)
+    public async Task<UserDto> GetMovies(String userName)
     {
-        var user = await _userManager.FindByNameAsync(User.Identity.Name);
+        var user = await _userManager.FindByNameAsync(userName);
         var movies = await _context.Users
             .Include(u => u.FavoriteMovies)
             .Select(u => new UserDto

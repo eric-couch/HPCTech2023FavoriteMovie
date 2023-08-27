@@ -19,12 +19,12 @@ public class UserMoviesHttpRespository : IUserMoviesHttpRepository
         _httpClient = httpClient;
     }
 
-    public async Task<DataResponse<List<OMDBMovie>>> GetMovies()
+    public async Task<DataResponse<List<OMDBMovie>>> GetMovies(string userName)
     {
         try
         {
             var MovieDetails = new List<OMDBMovie>();
-            UserDto User = await _httpClient.GetFromJsonAsync<UserDto>("api/User");
+            UserDto User = await _httpClient.GetFromJsonAsync<UserDto>($"api/User?userName={userName}");
             if (User?.FavoriteMovies?.Any() ?? false)
             {
                 foreach (var movie in User.FavoriteMovies)
