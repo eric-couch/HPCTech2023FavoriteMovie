@@ -40,6 +40,7 @@ public class UserController : Controller
     [Route("api/User")]
     public async Task<ActionResult<UserDto>> GetUserMovies([FromQuery(Name = "userName")] string userName)
     {
+        // add in code to test to make sure that userName matches current user
         var user = await _userService.GetMovies(userName);
         if (user is null)
         {

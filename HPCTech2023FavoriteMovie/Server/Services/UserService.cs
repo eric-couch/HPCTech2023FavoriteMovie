@@ -23,22 +23,28 @@ public class UserService : IUserService
         _logger = logger;
     }
 
-    public async Task<UserDto> GetMovies(String userName)
+    public async Task<UserDto>? GetMovies(String userName)
     {
         var user = await _userManager.FindByNameAsync(userName);
-        var movies = await _context.Users
-            .Include(u => u.FavoriteMovies)
-            .Select(u => new UserDto
-            {
-                Id = u.Id,
-                UserName = u.UserName,
-                FirstName = u.FirstName,
-                LastName = u.LastName,
-                FavoriteMovies = u.FavoriteMovies
-            }).FirstOrDefaultAsync(u => u.Id == user.Id);
 
-        _logger.LogInformation("User {UserName} retreiving {Count} favorite movies.  Logged at {Placeholder:MMMM dd, yyyy}", user.UserName, movies.FavoriteMovies.Count, DateTimeOffset.UtcNow);
+        //if (user is not null && userName == user.UserName)
+        //{
+            //var userManager = await _userManager.FindByNameAsync(userName);
+            var movies = await _context.Users
+                .Include(u => u.FavoriteMovies)
+                .Select(u => new UserDto
+                {
+                    Id = u.Id,
+                    UserName = u.UserName,
+                    FirstName = u.FirstName,
+                    LastName = u.LastName,
+                    FavoriteMovies = u.FavoriteMovies
+                }).FirstOrDefaultAsync(u => u.Id == user.Id);
 
-        return movies;
+            _logger.LogInformation("User {UserName} retreiving {Count} favorite movies.  Logged at {Placeholder:MMMM dd, yyyy}", user.UserName, movies.FavoriteMovies.Count, DateTimeOffset.UtcNow);
+
+            return movies;
+        //}
+        //return null;
     }
 }
